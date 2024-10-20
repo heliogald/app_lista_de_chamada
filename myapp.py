@@ -1,22 +1,19 @@
-import cv2
 import pytesseract
-from PIL import Image
+from PIL import Image, ImageOps
 import sqlite3
 import streamlit as st
 import re
 import pandas as pd
 import numpy as np
-import os
 
 # Configuração do Tesseract
-pytesseract.pytesseract.tesseract_cmd = r'D:\Asimov\App-Lista-chamada\tesseract\tesseract.exe'  # Ajuste o caminho conforme necessário
-os.environ['TESSDATA_PREFIX'] = r'D:\Asimov\App-Lista-chamada\tesseract\tessdata'  # Verifique se este caminho está correto
+# Ajuste o caminho do Tesseract conforme necessário, ou remova essa linha se estiver usando Streamlit Cloud
+# pytesseract.pytesseract.tesseract_cmd = r'D:\Asimov\App-Lista-chamada\tesseract\tesseract.exe'
 
-# Função para pré-processar a imagem
+# Função para pré-processar a imagem usando Pillow
 def process_image(image):
-    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    gray = cv2.medianBlur(gray, 3)
-    text = pytesseract.image_to_string(gray, lang='por')  # Especificando o idioma
+    gray = ImageOps.grayscale(image)  # Convertendo a imagem para tons de cinza
+    text = pytesseract.image_to_string(gray, lang='por')  # Extraindo o texto com o Tesseract
     return text
 
 # Função para extrair texto da imagem
@@ -118,7 +115,7 @@ def main():
     # Botão para processar a imagem
     if image and st.button("Extrair Dados"):
         # Extrair texto da imagem
-        extracted_text = extract_text(np.array(image))
+        extracted_text = extract_text(image)
         st.subheader("Texto Extraído")
         st.text(extracted_text)
         
