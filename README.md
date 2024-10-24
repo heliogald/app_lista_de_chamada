@@ -25,8 +25,8 @@ Este projeto é uma aplicação web desenvolvida em Streamlit que utiliza a tecn
 
 1. Clone o repositório:
     ```bash
-    git clone [https://github.com/seu_usuario/leitura_chamada_escolar.git](https://github.com/heliogald/app_lista_de_chamada)
-    cd leitura_chamada_escolar
+    git clone https://github.com/heliogald/app_lista_de_chamada.git
+    cd app_lista_de_chamada
     ```
 
 2. Instale as dependências necessárias:
