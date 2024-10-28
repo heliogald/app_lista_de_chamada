@@ -10,9 +10,30 @@ import spacy
 nlp = spacy.load("pt_core_news_sm")
 
 # Função para enviar a imagem para a API OCR.space
+# def ocr_space_file(image, overlay=False, api_key='K85585257288957', language='por', file_type='jpg'):
+#     """Utiliza a API OCR.space para realizar a leitura de texto em imagens"""
+#     img_buffer = BytesIO()
+#     image.save(img_buffer, format='JPEG')
+#     img_buffer.seek(0)
+
+#     payload = {
+#         'isOverlayRequired': overlay,
+#         'apikey': api_key,
+#         'language': language,
+#         'filetype': file_type
+#     }
+#     files = {'filename': img_buffer}
+#     r = requests.post('https://api.ocr.space/parse/image', files=files, data=payload)
+#     return r.json()
+
 def ocr_space_file(image, overlay=False, api_key='K85585257288957', language='por', file_type='jpg'):
     """Utiliza a API OCR.space para realizar a leitura de texto em imagens"""
     img_buffer = BytesIO()
+    
+    # Convertendo a imagem para o modo RGB se necessário
+    if image.mode != 'RGB':
+        image = image.convert('RGB')
+        
     image.save(img_buffer, format='JPEG')
     img_buffer.seek(0)
 
@@ -25,6 +46,7 @@ def ocr_space_file(image, overlay=False, api_key='K85585257288957', language='po
     files = {'filename': img_buffer}
     r = requests.post('https://api.ocr.space/parse/image', files=files, data=payload)
     return r.json()
+
 
 # Função para organizar os dados extraídos
 def organizar_dados(texto_extraido):
